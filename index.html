@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            animation: backgroundShift 10s infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            from {
+                background-position: left;
+            }
+            to {
+                background-position: right;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 3rem;
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #ff6f61;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            transition: color 0.5s;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .balloons {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .balloon {
+            width: 35px;
+            height: 50px;
+            background-color: #ff6f61;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            animation: floatBalloon 6s ease-in-out infinite;
+        }
+
+        @keyframes floatBalloon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 25px;
+            background: #333;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #e55d50;
+            transform: scale(1.05);
+        }
+
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            opacity: 0.7;
+            animation: confetti-fall 5s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0);
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti" id="confetti"></div>
+    <div class="card">
+        <div class="balloons">
+            <div class="balloon" style="background-color:#ff6f61;"></div>
+            <div class="balloon" style="background-color:#fdd365;"></div>
+            <div class="balloon" style="background-color:#82d8d8;"></div>
+            <div class="balloon" style="background-color:#a28fd0;"></div>
+        </div>
+        <h1 id="birthdayMessage">Happy Birthday!</h1>
+        <p>Wishing you a day filled with love, joy, and magical moments!</p>
+        <button onclick="changeMessage()">Surprise Me!</button>
+    </div>
+
+    <script>
+        const messages = [
+            "Happy Birthday to My Pechu!🦉",
+            "Hope your day is filled with happiness and cake!",
+            "Wishing you all the best on your special day!",
+            "May your year be as wonderful as you are!",
+            "Here's to you and your bright future!",
+            "Let the celebrations begin! You deserve the best!",
+            "To the birthday star — shine on and party hard!"
+        ];
+
+        function changeMessage() {
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            const heading = document.getElementById("birthdayMessage");
+            heading.innerText = msg;
+            heading.style.color = getRandomColor();
+            triggerConfetti();
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function triggerConfetti() {
+            const confettiContainer = document.getElementById("confetti");
+            confettiContainer.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement("div");
+                confetti.classList.add("confetti-piece");
+                confetti.style.left = Math.random() * 100 + "%";
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDuration = 3 + Math.random() * 3 + "s";
+                confettiContainer.appendChild(confetti);
+            }
+        }
+    </script>
+</body>
+</html>
